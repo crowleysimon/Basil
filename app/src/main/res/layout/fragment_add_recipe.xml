@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.crowleysimon.basil.ui.web.WebActivityFragment"
-    tools:showIn="@layout/activity_web">
+    tools:context="com.crowleysimon.basil.ui.addrecipe.AddRecipeFragment"
+    tools:showIn="@layout/activity_add_recipe">
 
 
 </android.support.constraint.ConstraintLayout>
