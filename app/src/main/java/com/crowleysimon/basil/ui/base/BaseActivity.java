@@ -13,7 +13,11 @@ import com.crowleysimon.basil.R;
 public class BaseActivity extends AppCompatActivity {
 
     protected void setFragment(@NonNull Class fragmentClass) {
-        Fragment fragment = findByTagOrCreate(fragmentClass);
+        Fragment fragment = findByTag(fragmentClass);
+        if (fragment == null) {
+            fragment = Fragment.instantiate(this, fragmentClass.getName());
+            fragment.setArguments(new Bundle());
+        }
 
         if (!fragment.isResumed()) {
             FragmentManager fragmentManager = getSupportFragmentManager();
@@ -34,30 +38,9 @@ public class BaseActivity extends AppCompatActivity {
         return fragmentClass.getName();
     }
 
-    @NonNull
-    protected <T extends Fragment> T findByTagOrCreate(@NonNull Class<T> fragmentClass) {
-        return findByTagOrCreate(fragmentClass, new Bundle());
-    }
-
     @SuppressWarnings("unchecked")
-    @NonNull
-    protected <T extends Fragment> T findByTagOrCreate(@NonNull Class<T> fragmentClass, @NonNull Bundle bundle) {
-        Fragment fragment = findByTag(fragmentClass);
-        if (fragment == null) {
-            fragment = Fragment.instantiate(this, fragmentClass.getName());
-            fragment.setArguments(bundle);
-        }
-        return (T) fragment;
-    }
-
     @Nullable
     protected <T extends Fragment> T findByTag(@NonNull Class<T> fragmentClass) {
-        return findByTag(getTag(fragmentClass));
-    }
-
-    @SuppressWarnings("unchecked")
-    @Nullable
-    protected <T extends Fragment> T findByTag(@NonNull String tag) {
-        return (T) getSupportFragmentManager().findFragmentByTag(tag);
+        return (T) getSupportFragmentManager().findFragmentByTag(getTag(fragmentClass));
     }
 }
