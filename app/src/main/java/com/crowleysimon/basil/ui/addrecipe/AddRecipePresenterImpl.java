@@ -1,12 +1,13 @@
 package com.crowleysimon.basil.ui.addrecipe;
 
 import android.support.annotation.NonNull;
-import android.util.Patterns;
 
 import com.crowleysimon.basil.model.Recipe;
 import com.crowleysimon.basil.repository.RecipeRepository;
 import com.crowleysimon.basil.util.RecipeUtil;
 import com.schinizer.rxunfurl.model.PreviewData;
+
+import java.util.regex.Pattern;
 
 public class AddRecipePresenterImpl implements AddRecipePresenter {
 
@@ -55,7 +56,8 @@ public class AddRecipePresenterImpl implements AddRecipePresenter {
         if (url.startsWith("www")) {
             this.url = formattedUrl(url);
         }
-        return Patterns.WEB_URL.matcher(url).matches();
+        Pattern pattern = Pattern.compile("^(http:\\/\\/|https:\\/\\/)?(www.)?([a-zA-Z0-9]+).[a-zA-Z0-9]*.[a-z]{3}.?([a-z]+)?$");
+        return pattern.matcher(this.url).matches();
     }
 
     private String formattedUrl(@NonNull String url) {
