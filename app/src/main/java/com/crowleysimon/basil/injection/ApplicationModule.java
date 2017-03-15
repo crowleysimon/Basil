@@ -33,8 +33,8 @@ public class ApplicationModule {
 
     @Provides
     @Singleton
-    public RecipeRepository provideRecipeRepository() {
-        return new RecipeRepositoryImpl();
+    public RecipeRepository provideRecipeRepository(OkHttpClient okHttpClient) {
+        return new RecipeRepositoryImpl(okHttpClient);
     }
 
     @Provides
@@ -45,7 +45,7 @@ public class ApplicationModule {
 
     @Provides
     @Singleton
-    public AddRecipePresenter provideAddRecipePresenter() {
-        return new AddRecipePresenterImpl();
+    public AddRecipePresenter provideAddRecipePresenter(RecipeRepository recipeRepository) {
+        return new AddRecipePresenterImpl(recipeRepository);
     }
 }
