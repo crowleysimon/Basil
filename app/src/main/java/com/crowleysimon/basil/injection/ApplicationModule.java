@@ -4,15 +4,18 @@ import android.app.Application;
 import android.content.Context;
 import android.support.annotation.NonNull;
 
-import com.crowleysimon.basil.repository.RecipeRepository;
-import com.crowleysimon.basil.repository.RecipeRepositoryImpl;
-import com.crowleysimon.basil.ui.addrecipe.AddRecipePresenter;
-import com.crowleysimon.basil.ui.addrecipe.AddRecipePresenterImpl;
+import com.crowleysimon.basil.BuildConfig;
+import com.crowleysimon.basil.data.repository.RecipeRepository;
+import com.crowleysimon.basil.data.repository.RecipeRepositoryImpl;
+import com.crowleysimon.basil.presentation.addrecipe.AddRecipePresenter;
+import com.crowleysimon.basil.presentation.addrecipe.AddRecipePresenterImpl;
 
 import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
+import io.realm.Realm;
+import io.realm.RealmConfiguration;
 import okhttp3.OkHttpClient;
 
 @Module
@@ -47,5 +50,17 @@ public class ApplicationModule {
     @Singleton
     public AddRecipePresenter provideAddRecipePresenter(RecipeRepository recipeRepository) {
         return new AddRecipePresenterImpl(recipeRepository);
+    }
+
+    @Provides
+    static RealmConfiguration provideRealmConfiguration() {
+        RealmConfiguration.Builder builder = new RealmConfiguration.Builder();
+        if(BuildConfig.DEBUG) { builder = builder.deleteRealmIfMigrationNeeded(); }
+        return builder.build();
+    }
+
+    @Provides
+    static Realm provideRealm(RealmConfiguration realmConfiguration) {
+        return Realm.getInstance(realmConfiguration);
     }
 }

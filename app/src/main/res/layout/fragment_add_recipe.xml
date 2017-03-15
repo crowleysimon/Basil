@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.crowleysimon.basil.ui.addrecipe.AddRecipeFragment">
+    tools:context="com.crowleysimon.basil.view.addrecipe.AddRecipeFragment">
 
     <android.support.design.widget.TextInputLayout
         android:id="@+id/input_layout_enter_url"

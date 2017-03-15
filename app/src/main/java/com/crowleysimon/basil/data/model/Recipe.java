@@ -1,4 +1,4 @@
-package com.crowleysimon.basil.model;
+package com.crowleysimon.basil.data.model;
 
 import java.util.Date;
 

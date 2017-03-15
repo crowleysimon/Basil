@@ -1,4 +1,4 @@
-package com.crowleysimon.basil.ui.addrecipe;
+package com.crowleysimon.basil.view.addrecipe;
 
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -7,7 +7,8 @@ import android.view.MenuItem;
 
 import com.crowleysimon.basil.BasilApplication;
 import com.crowleysimon.basil.R;
-import com.crowleysimon.basil.ui.base.BaseActivity;
+import com.crowleysimon.basil.presentation.addrecipe.AddRecipePresenter;
+import com.crowleysimon.basil.view.base.BaseActivity;
 
 import javax.inject.Inject;
 

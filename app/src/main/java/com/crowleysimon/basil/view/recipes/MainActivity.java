@@ -1,10 +1,10 @@
-package com.crowleysimon.basil.ui.recipes;
+package com.crowleysimon.basil.view.recipes;
 
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 
 import com.crowleysimon.basil.R;
-import com.crowleysimon.basil.ui.base.BaseActivity;
+import com.crowleysimon.basil.view.base.BaseActivity;
 
 public class MainActivity extends BaseActivity {
 

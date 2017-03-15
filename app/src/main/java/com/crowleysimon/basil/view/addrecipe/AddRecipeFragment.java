@@ -1,4 +1,4 @@
-package com.crowleysimon.basil.ui.addrecipe;
+package com.crowleysimon.basil.view.addrecipe;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -12,7 +12,8 @@ import android.view.ViewGroup;
 
 import com.crowleysimon.basil.BasilApplication;
 import com.crowleysimon.basil.R;
-import com.crowleysimon.basil.ui.base.BaseFragment;
+import com.crowleysimon.basil.presentation.addrecipe.AddRecipePresenter;
+import com.crowleysimon.basil.view.base.BaseFragment;
 import com.schinizer.rxunfurl.RxUnfurl;
 
 import javax.inject.Inject;

@@ -1,9 +1,9 @@
 package com.crowleysimon.basil;
 
-import com.crowleysimon.basil.repository.RecipeRepository;
-import com.crowleysimon.basil.ui.addrecipe.AddRecipePresenter;
-import com.crowleysimon.basil.ui.addrecipe.AddRecipePresenterImpl;
-import com.crowleysimon.basil.ui.addrecipe.AddRecipeView;
+import com.crowleysimon.basil.data.repository.RecipeRepository;
+import com.crowleysimon.basil.presentation.addrecipe.AddRecipePresenter;
+import com.crowleysimon.basil.presentation.addrecipe.AddRecipePresenterImpl;
+import com.crowleysimon.basil.view.addrecipe.AddRecipeView;
 import com.schinizer.rxunfurl.model.PreviewData;
 
 import org.junit.Before;

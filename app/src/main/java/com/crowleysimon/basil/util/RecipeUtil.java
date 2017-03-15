@@ -2,7 +2,7 @@ package com.crowleysimon.basil.util;
 
 import android.support.annotation.NonNull;
 
-import com.crowleysimon.basil.model.Recipe;
+import com.crowleysimon.basil.data.model.Recipe;
 import com.schinizer.rxunfurl.model.PreviewData;
 
 import java.util.Calendar;

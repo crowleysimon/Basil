@@ -17,7 +17,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".ui.recipes.MainActivity"
+            android:name=".view.recipes.MainActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
@@ -27,13 +27,13 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ui.addrecipe.AddRecipeActivity"
+            android:name=".view.addrecipe.AddRecipeActivity"
             android:label="@string/title_activity_add_recipe"
-            android:parentActivityName=".ui.recipes.MainActivity"
+            android:parentActivityName=".view.recipes.MainActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.crowleysimon.basil.ui.recipes.MainActivity" />
+                android:value="com.crowleysimon.basil.view.recipes.MainActivity" />
         </activity>
     </application>
 

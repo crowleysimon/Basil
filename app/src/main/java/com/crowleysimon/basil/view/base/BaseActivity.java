@@ -1,4 +1,4 @@
-package com.crowleysimon.basil.ui.base;
+package com.crowleysimon.basil.view.base;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;

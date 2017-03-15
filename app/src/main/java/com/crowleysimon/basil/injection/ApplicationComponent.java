@@ -1,9 +1,9 @@
 package com.crowleysimon.basil.injection;
 
 import com.crowleysimon.basil.BasilApplication;
-import com.crowleysimon.basil.ui.addrecipe.AddRecipeActivity;
-import com.crowleysimon.basil.ui.addrecipe.AddRecipeFragment;
-import com.crowleysimon.basil.ui.recipes.MainActivity;
+import com.crowleysimon.basil.view.addrecipe.AddRecipeActivity;
+import com.crowleysimon.basil.view.addrecipe.AddRecipeFragment;
+import com.crowleysimon.basil.view.recipes.MainActivity;
 
 import javax.inject.Singleton;
 

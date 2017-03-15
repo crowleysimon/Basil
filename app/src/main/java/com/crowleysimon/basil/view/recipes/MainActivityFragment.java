@@ -1,4 +1,4 @@
-package com.crowleysimon.basil.ui.recipes;
+package com.crowleysimon.basil.view.recipes;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -7,8 +7,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.crowleysimon.basil.R;
-import com.crowleysimon.basil.ui.addrecipe.AddRecipeActivity;
-import com.crowleysimon.basil.ui.base.BaseFragment;
+import com.crowleysimon.basil.view.addrecipe.AddRecipeActivity;
+import com.crowleysimon.basil.view.base.BaseFragment;
 
 import butterknife.OnClick;
 

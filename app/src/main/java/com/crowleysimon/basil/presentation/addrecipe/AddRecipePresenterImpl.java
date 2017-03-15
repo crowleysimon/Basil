@@ -1,10 +1,11 @@
-package com.crowleysimon.basil.ui.addrecipe;
+package com.crowleysimon.basil.presentation.addrecipe;
 
 import android.support.annotation.NonNull;
 
-import com.crowleysimon.basil.model.Recipe;
-import com.crowleysimon.basil.repository.RecipeRepository;
+import com.crowleysimon.basil.data.model.Recipe;
+import com.crowleysimon.basil.data.repository.RecipeRepository;
 import com.crowleysimon.basil.util.RecipeUtil;
+import com.crowleysimon.basil.view.addrecipe.AddRecipeView;
 import com.schinizer.rxunfurl.model.PreviewData;
 
 import java.util.regex.Pattern;

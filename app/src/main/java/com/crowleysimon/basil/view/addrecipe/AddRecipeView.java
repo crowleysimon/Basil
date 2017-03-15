@@ -1,4 +1,4 @@
-package com.crowleysimon.basil.ui.addrecipe;
+package com.crowleysimon.basil.view.addrecipe;
 
 import android.support.annotation.NonNull;
 
