@@ -4,7 +4,10 @@ import android.support.annotation.NonNull;
 
 import com.crowleysimon.basil.data.model.Recipe;
 
+import java.util.List;
+
 public interface RecipeRepository {
     boolean storeRecipe(@NonNull Recipe recipe);
-    Recipe getRecipe();
+
+    List<Recipe> getRecipes();
 }

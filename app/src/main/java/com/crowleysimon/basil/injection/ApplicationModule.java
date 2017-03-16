@@ -36,8 +36,8 @@ public class ApplicationModule {
 
     @Provides
     @Singleton
-    public RecipeRepository provideRecipeRepository(OkHttpClient okHttpClient) {
-        return new RecipeRepositoryImpl(okHttpClient);
+    public RecipeRepository provideRecipeRepository(Realm realm) {
+        return new RecipeRepositoryImpl(realm);
     }
 
     @Provides
