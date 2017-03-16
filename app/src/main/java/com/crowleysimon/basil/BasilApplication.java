@@ -6,6 +6,8 @@ import com.crowleysimon.basil.injection.ApplicationComponent;
 import com.crowleysimon.basil.injection.ApplicationModule;
 import com.crowleysimon.basil.injection.DaggerApplicationComponent;
 
+import io.realm.Realm;
+
 public class BasilApplication extends Application {
 
     private ApplicationComponent component;
@@ -13,6 +15,7 @@ public class BasilApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        Realm.init(this);
 
         component = DaggerApplicationComponent.builder()
                 .applicationModule(new ApplicationModule(this))
