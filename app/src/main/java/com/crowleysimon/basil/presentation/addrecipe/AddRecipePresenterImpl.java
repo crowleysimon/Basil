@@ -4,6 +4,7 @@ import android.support.annotation.NonNull;
 
 import com.crowleysimon.basil.data.model.Recipe;
 import com.crowleysimon.basil.data.repository.RecipeRepository;
+import com.crowleysimon.basil.presentation.ViewNotFoundException;
 import com.crowleysimon.basil.util.RecipeUtil;
 import com.crowleysimon.basil.view.addrecipe.AddRecipeView;
 import com.schinizer.rxunfurl.model.PreviewData;
@@ -24,22 +25,15 @@ public class AddRecipePresenterImpl implements AddRecipePresenter {
     }
 
     @Override
-    public void onResume() {
-
-    }
-
-    @Override
-    public void onPause() {
-
-    }
-
-    @Override
     public void setView(AddRecipeView view) {
         this.view = view;
     }
 
     @Override
     public void saveRecipe() {
+        if (view == null) {
+            throw new ViewNotFoundException();
+        }
         view.clearErrorState();
         url = view.getUrl();
         if (url != null && !url.isEmpty()) {

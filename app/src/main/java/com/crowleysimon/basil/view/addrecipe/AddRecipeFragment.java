@@ -56,8 +56,8 @@ public class AddRecipeFragment extends BaseFragment implements AddRecipeView {
     }
 
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
+    public void onResume() {
+        super.onResume();
         presenter.setView(this);
     }
 

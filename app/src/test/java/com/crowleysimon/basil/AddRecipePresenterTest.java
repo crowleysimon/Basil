@@ -1,6 +1,7 @@
 package com.crowleysimon.basil;
 
 import com.crowleysimon.basil.data.repository.RecipeRepository;
+import com.crowleysimon.basil.presentation.ViewNotFoundException;
 import com.crowleysimon.basil.presentation.addrecipe.AddRecipePresenter;
 import com.crowleysimon.basil.presentation.addrecipe.AddRecipePresenterImpl;
 import com.crowleysimon.basil.view.addrecipe.AddRecipeView;
@@ -98,5 +99,11 @@ public class AddRecipePresenterTest {
         presenter.generateRecipe(previewData);
         verify(mockView, times(1)).showSuccess();
         verify(mockView, never()).showStorageError();
+    }
+
+    @Test(expected = ViewNotFoundException.class)
+    public void shouldThrowViewNotFoundExceptionWhenViewIsNull() {
+        presenter.setView(null);
+        presenter.saveRecipe();
     }
 }
