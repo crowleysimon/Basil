@@ -7,15 +7,9 @@ import android.view.MenuItem;
 
 import com.crowleysimon.basil.BasilApplication;
 import com.crowleysimon.basil.R;
-import com.crowleysimon.basil.presentation.addrecipe.AddRecipePresenter;
 import com.crowleysimon.basil.view.base.BaseActivity;
 
-import javax.inject.Inject;
-
 public class AddRecipeActivity extends BaseActivity {
-
-    @Inject
-    AddRecipePresenter presenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,7 +19,9 @@ public class AddRecipeActivity extends BaseActivity {
         setContentView(R.layout.common_activity);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
         if (savedInstanceState == null) {
             setFragment(AddRecipeFragment.class);
         }
@@ -42,7 +38,10 @@ public class AddRecipeActivity extends BaseActivity {
         int id = item.getItemId();
 
         if (id == R.id.action_done) {
-            presenter.saveRecipe();
+            AddRecipeFragment fragment = findByTag(AddRecipeFragment.class);
+            if (fragment != null) {
+                fragment.saveRecipe();
+            }
             return true;
         }
         return super.onOptionsItemSelected(item);

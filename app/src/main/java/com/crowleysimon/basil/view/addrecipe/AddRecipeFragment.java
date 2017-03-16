@@ -95,6 +95,11 @@ public class AddRecipeFragment extends BaseFragment implements AddRecipeView {
     }
 
     @Override
+    public void saveRecipe() {
+        presenter.saveRecipe();
+    }
+
+    @Override
     public void getRecipeFromUrl(@NonNull String url) {
         RxUnfurl inst = new RxUnfurl.Builder()
                 .client(okHttpClient)

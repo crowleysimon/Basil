@@ -11,5 +11,7 @@ public interface AddRecipeView {
 
     String getUrl();
 
+    void saveRecipe();
+
     void getRecipeFromUrl(@NonNull String url);
 }
