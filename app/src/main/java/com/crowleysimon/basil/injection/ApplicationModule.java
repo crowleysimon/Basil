@@ -9,6 +9,8 @@ import com.crowleysimon.basil.data.repository.RecipeRepository;
 import com.crowleysimon.basil.data.repository.RecipeRepositoryImpl;
 import com.crowleysimon.basil.presentation.addrecipe.AddRecipePresenter;
 import com.crowleysimon.basil.presentation.addrecipe.AddRecipePresenterImpl;
+import com.crowleysimon.basil.presentation.recipelist.RecipeListPresenter;
+import com.crowleysimon.basil.presentation.recipelist.RecipeListPresenterImpl;
 
 import javax.inject.Singleton;
 
@@ -47,9 +49,13 @@ public class ApplicationModule {
     }
 
     @Provides
-    @Singleton
     public AddRecipePresenter provideAddRecipePresenter(RecipeRepository recipeRepository) {
         return new AddRecipePresenterImpl(recipeRepository);
+    }
+
+    @Provides
+    public RecipeListPresenter provideRecipeListPresenter(RecipeRepository recipeRepository) {
+        return new RecipeListPresenterImpl(recipeRepository);
     }
 
     @Provides
