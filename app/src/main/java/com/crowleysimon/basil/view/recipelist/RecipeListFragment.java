@@ -1,4 +1,4 @@
-package com.crowleysimon.basil.view.recipes;
+package com.crowleysimon.basil.view.recipelist;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,9 +12,9 @@ import com.crowleysimon.basil.view.base.BaseFragment;
 
 import butterknife.OnClick;
 
-public class MainActivityFragment extends BaseFragment {
+public class RecipeListFragment extends BaseFragment {
 
-    public MainActivityFragment() {
+    public RecipeListFragment() {
     }
 
     @Override

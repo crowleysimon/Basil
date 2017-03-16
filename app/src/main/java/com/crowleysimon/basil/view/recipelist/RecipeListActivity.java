@@ -1,4 +1,4 @@
-package com.crowleysimon.basil.view.recipes;
+package com.crowleysimon.basil.view.recipelist;
 
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -6,7 +6,7 @@ import android.support.v7.widget.Toolbar;
 import com.crowleysimon.basil.R;
 import com.crowleysimon.basil.view.base.BaseActivity;
 
-public class MainActivity extends BaseActivity {
+public class RecipeListActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -15,7 +15,7 @@ public class MainActivity extends BaseActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         if (savedInstanceState == null) {
-            setFragment(MainActivityFragment.class);
+            setFragment(RecipeListFragment.class);
         }
     }
 }
