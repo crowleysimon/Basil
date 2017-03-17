@@ -9,7 +9,8 @@ import com.crowleysimon.basil.util.RecipeUtil;
 import com.crowleysimon.basil.view.addrecipe.AddRecipeView;
 import com.schinizer.rxunfurl.model.PreviewData;
 
-import java.util.regex.Pattern;
+import java.net.MalformedURLException;
+import java.net.URL;
 
 public class AddRecipePresenterImpl implements AddRecipePresenter {
 
@@ -51,8 +52,12 @@ public class AddRecipePresenterImpl implements AddRecipePresenter {
         if (url.startsWith("www")) {
             this.url = formattedUrl(url);
         }
-        Pattern pattern = Pattern.compile("^(http:\\/\\/|https:\\/\\/)?(www.)?([a-zA-Z0-9]+).[a-zA-Z0-9]*.[a-z]{3}.?([a-z]+)?$");
-        return pattern.matcher(this.url).matches();
+        try {
+            URL url1 = new URL(this.url);
+        } catch (MalformedURLException e) {
+            return false;
+        }
+        return true;
     }
 
     private String formattedUrl(@NonNull String url) {
