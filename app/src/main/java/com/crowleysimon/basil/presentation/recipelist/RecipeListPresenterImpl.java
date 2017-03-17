@@ -36,6 +36,6 @@ public class RecipeListPresenterImpl implements RecipeListPresenter {
         if (view == null) {
             throw new ViewNotFoundException();
         }
-
+        view.viewRecipe(url);
     }
 }
