@@ -9,7 +9,11 @@
     <android.support.v7.widget.RecyclerView
         android:id="@+id/list_recipes"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent"
+        android:clipChildren="false"
+        android:clipToPadding="false"
+        android:paddingEnd="16dp"
+        android:paddingStart="16dp"/>
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab"
