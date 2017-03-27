@@ -93,17 +93,24 @@ public class AddRecipeFragment extends BaseFragment implements AddRecipeView {
         }
 
         Subscription subscription = RxTextView.textChanges(editTextEnterUrl)
-                .skip(1)
                 .debounce(1000, TimeUnit.MILLISECONDS)
                 .observeOn(AndroidSchedulers.mainThread())
+                .filter(charSequence -> {
+                    Log.w("1", charSequence + "");
+                    return charSequence != null && charSequence.length() != 0;
+                })
+                .filter(charSequence -> {
+                    Log.w("2", charSequence + "");
+                    return presenter.isWebUrl(charSequence.toString());
+                })
                 .flatMap(textViewTextChangeEvent -> {
-                    Log.w("TAG", textViewTextChangeEvent.toString());
-                    return inst.generatePreview(textViewTextChangeEvent.toString()).onErrorReturn(throwable -> null);
+                    Log.w("3", textViewTextChangeEvent + "");
+                    return inst.generatePreview(textViewTextChangeEvent.toString()).onErrorResumeNext(throwable -> null);
                 })
                 .subscribe(previewData1 -> {
                     previewData = previewData1;
                     titleTextView.setText(previewData.getTitle());
-                },throwable -> showUrlError());
+                }, throwable -> Toast.makeText(getActivity(), throwable.getMessage(), Toast.LENGTH_LONG).show());
     }
 
     @Override

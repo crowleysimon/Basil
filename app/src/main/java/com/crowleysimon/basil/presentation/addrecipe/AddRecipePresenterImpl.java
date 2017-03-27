@@ -48,12 +48,12 @@ public class AddRecipePresenterImpl implements AddRecipePresenter {
         }
     }
 
-    private boolean isWebUrl(@NonNull String url) {
+    public boolean isWebUrl(@NonNull String url) {
         if (url.startsWith("www")) {
             this.url = formattedUrl(url);
         }
         try {
-            URL url1 = new URL(this.url);
+            URL url1 = new URL(url);
         } catch (MalformedURLException e) {
             return false;
         }
