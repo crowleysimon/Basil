@@ -55,3 +55,7 @@ freeline/
 freeline_project_description.jso
 
 \.idea/
+
+gradlew
+
+gradlew\.bat
