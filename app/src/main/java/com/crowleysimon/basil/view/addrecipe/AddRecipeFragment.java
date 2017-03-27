@@ -1,27 +1,39 @@
 package com.crowleysimon.basil.view.addrecipe;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.Toast;
 
 import com.crowleysimon.basil.BasilApplication;
 import com.crowleysimon.basil.R;
 import com.crowleysimon.basil.presentation.addrecipe.AddRecipePresenter;
 import com.crowleysimon.basil.view.base.BaseFragment;
+import com.jakewharton.rxbinding.widget.RxTextView;
+import com.jakewharton.rxbinding.widget.TextViewTextChangeEvent;
 import com.schinizer.rxunfurl.RxUnfurl;
+import com.schinizer.rxunfurl.model.PreviewData;
+
+import java.util.concurrent.TimeUnit;
 
 import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import okhttp3.OkHttpClient;
+import rx.Observable;
+import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 
 public class AddRecipeFragment extends BaseFragment implements AddRecipeView {
@@ -38,6 +50,16 @@ public class AddRecipeFragment extends BaseFragment implements AddRecipeView {
     @BindView(R.id.input_layout_enter_url)
     TextInputLayout inputLayoutEnterUrl;
 
+    @BindView(R.id.editText)
+    EditText titleTextView;
+
+    @Nullable
+    private String url;
+
+    private RxUnfurl inst;
+
+    private PreviewData previewData;
+
     public AddRecipeFragment() {
     }
 
@@ -45,6 +67,14 @@ public class AddRecipeFragment extends BaseFragment implements AddRecipeView {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ((BasilApplication) getActivity().getApplication()).getComponent().inject(this);
+        Intent intent = getActivity().getIntent();
+        if (intent != null) {
+            url = intent.getStringExtra(Intent.EXTRA_TEXT);
+        }
+        inst = new RxUnfurl.Builder()
+                .client(okHttpClient)
+                .scheduler(Schedulers.io())
+                .build();
     }
 
     @Override
@@ -53,6 +83,27 @@ public class AddRecipeFragment extends BaseFragment implements AddRecipeView {
         View view = inflater.inflate(R.layout.fragment_add_recipe, container, false);
         ButterKnife.bind(this, view);
         return view;
+    }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        if (url != null) {
+            editTextEnterUrl.setText(url);
+        }
+
+        Subscription subscription = RxTextView.textChanges(editTextEnterUrl)
+                .skip(1)
+                .debounce(1000, TimeUnit.MILLISECONDS)
+                .observeOn(AndroidSchedulers.mainThread())
+                .flatMap(textViewTextChangeEvent -> {
+                    Log.w("TAG", textViewTextChangeEvent.toString());
+                    return inst.generatePreview(textViewTextChangeEvent.toString()).onErrorReturn(throwable -> null);
+                })
+                .subscribe(previewData1 -> {
+                    previewData = previewData1;
+                    titleTextView.setText(previewData.getTitle());
+                },throwable -> showUrlError());
     }
 
     @Override
@@ -96,19 +147,11 @@ public class AddRecipeFragment extends BaseFragment implements AddRecipeView {
 
     @Override
     public void saveRecipe() {
-        presenter.saveRecipe();
+        presenter.generateRecipe(previewData);
     }
 
     @Override
     public void getRecipeFromUrl(@NonNull String url) {
-        RxUnfurl inst = new RxUnfurl.Builder()
-                .client(okHttpClient)
-                .scheduler(Schedulers.io())
-                .build();
 
-        inst.generatePreview(url)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(previewData -> presenter.generateRecipe(previewData), throwable -> showUrlError());
     }
 }
