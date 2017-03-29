@@ -52,12 +52,7 @@ public class AddRecipePresenterImpl implements AddRecipePresenter {
         if (url.startsWith("www")) {
             this.url = formattedUrl(url);
         }
-        try {
-            URL url1 = new URL(url);
-        } catch (MalformedURLException e) {
-            return false;
-        }
-        return true;
+        return url.startsWith("http");
     }
 
     private String formattedUrl(@NonNull String url) {

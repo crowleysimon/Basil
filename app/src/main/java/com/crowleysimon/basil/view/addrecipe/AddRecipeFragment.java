@@ -92,7 +92,7 @@ public class AddRecipeFragment extends BaseFragment implements AddRecipeView {
             editTextEnterUrl.setText(url);
         }
 
-        Subscription subscription = RxTextView.textChanges(editTextEnterUrl)
+        /*Subscription subscription = RxTextView.textChanges(editTextEnterUrl)
                 .debounce(1000, TimeUnit.MILLISECONDS)
                 .observeOn(AndroidSchedulers.mainThread())
                 .filter(charSequence -> {
@@ -111,6 +111,7 @@ public class AddRecipeFragment extends BaseFragment implements AddRecipeView {
                     previewData = previewData1;
                     titleTextView.setText(previewData.getTitle());
                 }, throwable -> Toast.makeText(getActivity(), throwable.getMessage(), Toast.LENGTH_LONG).show());
+                */
     }
 
     @Override
