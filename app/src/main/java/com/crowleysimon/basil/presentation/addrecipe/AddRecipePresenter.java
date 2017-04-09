@@ -7,7 +7,7 @@ import com.schinizer.rxunfurl.model.PreviewData;
 
 public interface AddRecipePresenter {
     void setView(AddRecipeView view);
+    void generateRecipe();
     void saveRecipe();
-    void generateRecipe(@NonNull PreviewData previewData);
-    boolean isWebUrl(@NonNull String url);
+    void isWebUrl(@NonNull String url);
 }

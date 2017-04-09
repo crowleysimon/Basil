@@ -1,6 +1,7 @@
 package com.crowleysimon.basil.presentation.addrecipe;
 
 import android.support.annotation.NonNull;
+import android.util.Log;
 
 import com.crowleysimon.basil.data.model.Recipe;
 import com.crowleysimon.basil.data.repository.RecipeRepository;
@@ -11,8 +12,12 @@ import com.schinizer.rxunfurl.model.PreviewData;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class AddRecipePresenterImpl implements AddRecipePresenter {
+
+    private static final String URL_REGEX = "^((https?|ftp)://|(www|ftp)\\.)?[a-z0-9-]+(\\.[a-z0-9-]+)+([/?].*)?$";
 
     @NonNull
     private RecipeRepository repository;
@@ -31,37 +36,40 @@ public class AddRecipePresenterImpl implements AddRecipePresenter {
     }
 
     @Override
-    public void saveRecipe() {
+    public void generateRecipe() {
         if (view == null) {
             throw new ViewNotFoundException();
         }
         view.clearErrorState();
-        url = view.getUrl();
-        if (url != null && !url.isEmpty()) {
-            if (isWebUrl(url)) {
-                view.getRecipeFromUrl(url);
-            } else {
-                view.showUrlError();
-            }
-        } else {
-            view.showUrlIsRequired();
-        }
-    }
-
-    public boolean isWebUrl(@NonNull String url) {
-        if (url.startsWith("www")) {
-            this.url = formattedUrl(url);
-        }
-        return url.startsWith("http");
-    }
-
-    private String formattedUrl(@NonNull String url) {
-        return "http://" + url;
+        view.getRecipeFromUrl(view.getUrl());
     }
 
     @Override
-    public void generateRecipe(@NonNull PreviewData previewData) {
-        Recipe recipe = RecipeUtil.createRecipeFromPreview(previewData);
+    public void isWebUrl(@NonNull String url) {
+        if (view == null) {
+            throw new ViewNotFoundException();
+        }
+        Pattern p = Pattern.compile(URL_REGEX);
+        Matcher m = p.matcher(url);
+        if (m.find()) {
+            view.clearErrorState();
+            view.isUrlFormatted(true);
+        } else {
+            view.showUrlError();
+            view.isUrlFormatted(false);
+        }
+    }
+
+    @Override
+    public void saveRecipe() {
+        if (view == null) {
+            throw new ViewNotFoundException();
+        }
+        PreviewData previewData = view.getData();
+        previewData.setTitle(view.getTitle());
+        previewData.setDescription(view.getDescription());
+        int rating = view.getRating();
+        Recipe recipe = RecipeUtil.createRecipeFromPreview(previewData, rating);
         if (repository.storeRecipe(recipe)) {
             view.showSuccess();
         } else {

@@ -9,7 +9,7 @@ import java.util.Calendar;
 
 public class RecipeUtil {
 
-    public static Recipe createRecipeFromPreview(@NonNull PreviewData previewData) {
+    public static Recipe createRecipeFromPreview(@NonNull PreviewData previewData, int rating) {
         Recipe recipe = new Recipe();
         recipe.setDescription(previewData.getDescription());
         if (previewData.getImages() != null && !previewData.getImages().isEmpty()) {
@@ -19,6 +19,7 @@ public class RecipeUtil {
         recipe.setUrl(previewData.getUrl());
         Calendar calendar = Calendar.getInstance();
         recipe.setSavedDate(calendar.getTime());
+        recipe.setRating(rating);
         return recipe;
     }
 }
