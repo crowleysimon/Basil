@@ -137,6 +137,24 @@ public class AddRecipeFragment extends BaseFragment implements AddRecipeView {
     }
 
     @Override
+    public void showUrlIsRequired() {
+        inputLayoutEnterUrl.setErrorEnabled(true);
+        inputLayoutEnterUrl.setError(getString(R.string.required_url));
+    }
+
+    @Override
+    public void showTitleIsRequired() {
+        inputLayoutTitle.setErrorEnabled(true);
+        inputLayoutTitle.setError(getString(R.string.required_title));
+    }
+
+    @Override
+    public void showDescriptionIsRequired() {
+        inputLayoutDescription.setErrorEnabled(true);
+        inputLayoutDescription.setError(getString(R.string.required_description));
+    }
+
+    @Override
     public void showUrlError() {
         inputLayoutEnterUrl.setErrorEnabled(true);
         inputLayoutEnterUrl.setError(getString(R.string.url_error));
@@ -156,6 +174,8 @@ public class AddRecipeFragment extends BaseFragment implements AddRecipeView {
     @Override
     public void clearErrorState() {
         inputLayoutEnterUrl.setErrorEnabled(false);
+        inputLayoutTitle.setErrorEnabled(false);
+        inputLayoutDescription.setErrorEnabled(false);
     }
 
     @Override

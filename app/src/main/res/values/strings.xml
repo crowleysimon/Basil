@@ -10,4 +10,7 @@
     <string name="url_error">There was an error saving this url</string>
     <string name="recipe_saved_success">Recipe Successfully Saved</string>
     <string name="recipe_saved_error">Error Saving Recipe</string>
+    <string name="required_url">A Url is required</string>
+    <string name="required_title">A title is required</string>
+    <string name="required_description">A description is required</string>
 </resources>

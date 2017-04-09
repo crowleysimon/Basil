@@ -41,6 +41,10 @@ public class AddRecipePresenterImpl implements AddRecipePresenter {
             throw new ViewNotFoundException();
         }
         view.clearErrorState();
+        if (view.getUrl() == null) {
+            view.showUrlIsRequired();
+            return;
+        }
         view.getRecipeFromUrl(view.getUrl());
     }
 
@@ -65,8 +69,20 @@ public class AddRecipePresenterImpl implements AddRecipePresenter {
         if (view == null) {
             throw new ViewNotFoundException();
         }
+        if (view.getData() == null) {
+            view.showUrlIsRequired();
+            return;
+        }
         PreviewData previewData = view.getData();
+        if (view.getTitle() == null) {
+            view.showTitleIsRequired();
+            return;
+        }
         previewData.setTitle(view.getTitle());
+        if (view.getDescription() == null) {
+            view.showDescriptionIsRequired();
+            return;
+        }
         previewData.setDescription(view.getDescription());
         int rating = view.getRating();
         Recipe recipe = RecipeUtil.createRecipeFromPreview(previewData, rating);
