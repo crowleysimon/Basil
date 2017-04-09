@@ -4,7 +4,6 @@
     tools:context="com.crowleysimon.basil.view.addrecipe.AddRecipeActivity">
     <item
         android:id="@+id/action_done"
-        android:icon="@drawable/ic_done_black_24dp"
         android:orderInCategory="100"
         android:title="@string/action_done"
         app:showAsAction="always" />
