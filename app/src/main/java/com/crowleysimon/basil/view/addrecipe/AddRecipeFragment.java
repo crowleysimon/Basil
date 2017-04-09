@@ -11,7 +11,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RatingBar;
 import android.widget.Toast;
 
 import com.crowleysimon.basil.BasilApplication;
@@ -29,10 +31,13 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
+import butterknife.OnTextChanged;
 import okhttp3.OkHttpClient;
 import rx.Observable;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action1;
 import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 
@@ -44,14 +49,29 @@ public class AddRecipeFragment extends BaseFragment implements AddRecipeView {
     @Inject
     OkHttpClient okHttpClient;
 
-    @BindView(R.id.edit_text_enter_url)
-    TextInputEditText editTextEnterUrl;
-
     @BindView(R.id.input_layout_enter_url)
     TextInputLayout inputLayoutEnterUrl;
 
-    @BindView(R.id.editText)
-    EditText titleTextView;
+    @BindView(R.id.edit_text_enter_url)
+    TextInputEditText editTextEnterUrl;
+
+    @BindView(R.id.input_layout_title)
+    TextInputLayout inputLayoutTitle;
+
+    @BindView(R.id.edittext_title)
+    TextInputEditText titleView;
+
+    @BindView(R.id.input_layout_description)
+    TextInputLayout inputLayoutDescription;
+
+    @BindView(R.id.edittext_description)
+    TextInputEditText descriptionView;
+
+    @BindView(R.id.button_generate_recipe)
+    Button generateRecipeButton;
+
+    @BindView(R.id.ratingBar)
+    RatingBar ratingBar;
 
     @Nullable
     private String url;
@@ -91,61 +111,59 @@ public class AddRecipeFragment extends BaseFragment implements AddRecipeView {
         if (url != null) {
             editTextEnterUrl.setText(url);
         }
+    }
 
-        /*Subscription subscription = RxTextView.textChanges(editTextEnterUrl)
-                .debounce(1000, TimeUnit.MILLISECONDS)
-                .observeOn(AndroidSchedulers.mainThread())
-                .filter(charSequence -> {
-                    Log.w("1", charSequence + "");
-                    return charSequence != null && charSequence.length() != 0;
-                })
-                .filter(charSequence -> {
-                    Log.w("2", charSequence + "");
-                    return presenter.isWebUrl(charSequence.toString());
-                })
-                .flatMap(textViewTextChangeEvent -> {
-                    Log.w("3", textViewTextChangeEvent + "");
-                    return inst.generatePreview(textViewTextChangeEvent.toString()).onErrorResumeNext(throwable -> null);
-                })
-                .subscribe(previewData1 -> {
-                    previewData = previewData1;
-                    titleTextView.setText(previewData.getTitle());
-                }, throwable -> Toast.makeText(getActivity(), throwable.getMessage(), Toast.LENGTH_LONG).show());
-                */
+    @OnTextChanged(R.id.edit_text_enter_url)
+    public void onTextChanged(CharSequence charSequence) {
+        if (charSequence != null && charSequence.length() != 0 && this.isResumed()) {
+            presenter.isWebUrl(charSequence.toString());
+        } else {
+            clearErrorState();
+        }
+    }
+
+    @OnClick(R.id.button_generate_recipe)
+    public void onGenerateClick() {
+        presenter.generateRecipe();
     }
 
     @Override
     public void onResume() {
         super.onResume();
         presenter.setView(this);
-    }
-
-    @Override
-    public void showUrlIsRequired() {
-        inputLayoutEnterUrl.setErrorEnabled(true);
-        inputLayoutEnterUrl.setError("A Url is required");
+        if (editTextEnterUrl.getText().toString().length() > 0) {
+            presenter.isWebUrl(editTextEnterUrl.getText().toString());
+        }
     }
 
     @Override
     public void showUrlError() {
         inputLayoutEnterUrl.setErrorEnabled(true);
-        inputLayoutEnterUrl.setError("There was an error saving this url");
+        inputLayoutEnterUrl.setError(getString(R.string.url_error));
     }
 
     @Override
     public void showSuccess() {
-        Snackbar.make(getActivity().getWindow().getDecorView(), "Recipe Successfully Saved", Snackbar.LENGTH_LONG).show();
+        Snackbar.make(getActivity().getWindow().getDecorView(), R.string.recipe_saved_success, Snackbar.LENGTH_LONG).show();
         getActivity().finish();
     }
 
     @Override
     public void showStorageError() {
-        Snackbar.make(getActivity().getWindow().getDecorView(), "Error Saving Recipe", Snackbar.LENGTH_LONG).show();
+        Snackbar.make(getActivity().getWindow().getDecorView(), R.string.recipe_saved_error, Snackbar.LENGTH_LONG).show();
     }
 
     @Override
     public void clearErrorState() {
         inputLayoutEnterUrl.setErrorEnabled(false);
+    }
+
+    @Override
+    public void isUrlFormatted(boolean formatted) {
+        generateRecipeButton.setEnabled(formatted);
+        titleView.setEnabled(formatted);
+        descriptionView.setEnabled(formatted);
+        ratingBar.setEnabled(formatted);
     }
 
     @Override
@@ -155,11 +173,42 @@ public class AddRecipeFragment extends BaseFragment implements AddRecipeView {
 
     @Override
     public void saveRecipe() {
-        presenter.generateRecipe(previewData);
+        presenter.saveRecipe();
+    }
+
+    @Override
+    public String getTitle() {
+        return titleView.getText().toString();
+    }
+
+    @Override
+    public String getDescription() {
+        return descriptionView.getText().toString();
+    }
+
+    @Override
+    public PreviewData getData() {
+        return previewData;
+    }
+
+    @Override
+    public int getRating() {
+        return (int) ratingBar.getRating();
     }
 
     @Override
     public void getRecipeFromUrl(@NonNull String url) {
-
+        inst.generatePreview(url)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .subscribe(previewData1 -> {
+                    previewData = previewData1;
+                    titleView.setText(previewData1.getTitle());
+                    descriptionView.setText(previewData1.getDescription());
+                    isUrlFormatted(true);
+                }, throwable -> {
+                    isUrlFormatted(false);
+                    showUrlError();
+                });
     }
 }

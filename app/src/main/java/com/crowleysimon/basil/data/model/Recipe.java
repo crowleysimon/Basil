@@ -11,6 +11,15 @@ public class Recipe extends RealmObject {
     private String title;
     private String description;
     private String imageUrl;
+    private int rating;
+
+    public int getRating() {
+        return rating;
+    }
+
+    public void setRating(int rating) {
+        this.rating = rating;
+    }
 
     public Date getSavedDate() {
         return savedDate;
