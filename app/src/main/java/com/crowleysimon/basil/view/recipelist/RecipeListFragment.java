@@ -19,6 +19,7 @@ import com.crowleysimon.basil.BasilApplication;
 import com.crowleysimon.basil.R;
 import com.crowleysimon.basil.data.model.Recipe;
 import com.crowleysimon.basil.presentation.recipelist.RecipeListPresenter;
+import com.crowleysimon.basil.util.CustomTabsUtil;
 import com.crowleysimon.basil.view.SectionItemDecoration;
 import com.crowleysimon.basil.view.addrecipe.AddRecipeActivity;
 import com.crowleysimon.basil.view.base.BaseFragment;
@@ -42,7 +43,10 @@ public class RecipeListFragment extends BaseFragment implements RecipeListView {
     FloatingActionButton fab;
 
     @NonNull
-    private RecipeAdapter recipeAdapter = new RecipeAdapter(null, presenter);
+    private RecipeAdapter recipeAdapter = new RecipeAdapter(null, presenter, null);
+
+    @Nullable
+    private CustomTabsUtil customTabsUtil;
 
     public RecipeListFragment() {
     }
@@ -51,12 +55,29 @@ public class RecipeListFragment extends BaseFragment implements RecipeListView {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ((BasilApplication) getActivity().getApplication()).getComponent().inject(this);
+        customTabsUtil = new CustomTabsUtil();
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_main, container, false);
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        if (customTabsUtil != null) {
+            customTabsUtil.bindCustomTabsService(getActivity());
+        }
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        if (customTabsUtil != null) {
+            customTabsUtil.unbindCustomTabsService(getActivity());
+        }
     }
 
     @Override
@@ -88,7 +109,7 @@ public class RecipeListFragment extends BaseFragment implements RecipeListView {
 
     @Override
     public void displayRecipes(@Nullable List<Recipe> recipes) {
-        recipeAdapter = new RecipeAdapter(recipes, presenter);
+        recipeAdapter = new RecipeAdapter(recipes, presenter, customTabsUtil);
         recipesRecyclerView.setAdapter(recipeAdapter);
     }
 
