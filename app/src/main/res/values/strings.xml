@@ -3,7 +3,11 @@
     <string name="action_done">Done</string>
     <string name="title_activity_add_recipe">Enter New Recipe</string>
     <string name="enter_url">Enter url</string>
-    <string name="name">Name</string>
+    <string name="title">Title</string>
     <string name="generate">Generate</string>
+    <string name="search">Search</string>
     <string name="description">Description</string>
+    <string name="url_error">There was an error saving this url</string>
+    <string name="recipe_saved_success">Recipe Successfully Saved</string>
+    <string name="recipe_saved_error">Error Saving Recipe</string>
 </resources>
