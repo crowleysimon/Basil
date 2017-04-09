@@ -34,56 +34,32 @@ public class AddRecipePresenterTest {
     @Test
     public void errorOnEmptyUrl() {
         when(mockView.getUrl()).thenReturn(null);
-        presenter.saveRecipe();
+        presenter.generateRecipe();
 
         verify(mockView, times(1)).clearErrorState();
         verify(mockView, times(1)).showUrlIsRequired();
-        verify(mockView, never()).showUrlError();
-        verify(mockView, never()).showSuccess();
-    }
-
-    @Test
-    public void errorOnBrokenUrl() {
-        when(mockView.getUrl()).thenReturn("this is not a url");
-        presenter.saveRecipe();
-
-        verify(mockView, times(1)).clearErrorState();
-        verify(mockView, times(1)).showUrlError();
-        verify(mockView, never()).showUrlIsRequired();
-        verify(mockView, never()).showSuccess();
+        verify(mockView, never()).getRecipeFromUrl(any());
     }
 
     @Test
     public void successOnCorrectlyFormattedUrl() {
         when(mockView.getUrl()).thenReturn("http://www.google.com");
-        presenter.saveRecipe();
+        presenter.generateRecipe();
 
         verify(mockView, times(1)).clearErrorState();
-        verify(mockView, times(1)).getRecipeFromUrl("http://www.google.com");
         verify(mockView, never()).showUrlIsRequired();
-        verify(mockView, never()).showSuccess();
-    }
-
-    @Test
-    public void successOnUrlMissingHttp() {
-        when(mockView.getUrl()).thenReturn("www.google.com");
-        presenter.saveRecipe();
-
-        verify(mockView, times(1)).clearErrorState();
         verify(mockView, times(1)).getRecipeFromUrl("http://www.google.com");
-        verify(mockView, never()).showUrlIsRequired();
-        verify(mockView, never()).showSuccess();
     }
 
     @Test
     public void showErrorOnFailingToGenerateRecipe() {
         when(mockRepository.storeRecipe(any())).thenReturn(false);
         PreviewData previewData = new PreviewData();
-        previewData.setDescription("descriptio");
+        previewData.setDescription("description");
         previewData.setTitle("title");
         previewData.setUrl("url");
 
-        presenter.generateRecipe(previewData);
+        presenter.generateRecipe();
         verify(mockView, times(1)).showStorageError();
         verify(mockView, never()).showSuccess();
     }
@@ -92,11 +68,11 @@ public class AddRecipePresenterTest {
     public void showSuccessOnGeneratingRecipe() {
         when(mockRepository.storeRecipe(any())).thenReturn(true);
         PreviewData previewData = new PreviewData();
-        previewData.setDescription("descriptio");
+        previewData.setDescription("description");
         previewData.setTitle("title");
         previewData.setUrl("url");
 
-        presenter.generateRecipe(previewData);
+        presenter.generateRecipe();
         verify(mockView, times(1)).showSuccess();
         verify(mockView, never()).showStorageError();
     }
