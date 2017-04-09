@@ -36,6 +36,7 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeViewHolder> {
         Context context = holder.itemView.getContext();
         holder.title.setText(recipeList.get(position).getTitle());
         holder.description.setText(recipeList.get(position).getDescription());
+        holder.ratingBar.setRating(recipeList.get(position).getRating());
 
         if (recipeList.get(position).getImageUrl() != null) {
             Glide.with(context)
